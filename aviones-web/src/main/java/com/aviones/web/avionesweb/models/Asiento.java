@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class Asiento {
 
     @ManyToOne
     @JoinColumn(name = "VUELO_ID",nullable = false)
-    private Vuelo vuelo;
+    private Vuelo vuelo;//propiedad
+
+    @OneToOne
+    @JoinColumn(name = "ASIENTO_ID",nullable = false)
+    private Pasajero pasajero;//propiedad
     
 }
