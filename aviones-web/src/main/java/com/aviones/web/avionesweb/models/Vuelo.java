@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -40,4 +42,16 @@ public class Vuelo {
 
     @OneToMany(mappedBy = "vuelo")
     private List<Asiento> asientos;
+
+    @OneToMany(mappedBy = "vuelo")
+    private List<Piloto> pilotos;
+
+    @OneToMany(mappedBy = "vuelo")
+    private List<Ciudad> ciudades;
+
+    @ManyToOne
+    @JoinColumn(name = "AVION_ID",nullable = false)
+    private Avion avion;//propiedad
+
 }
+

@@ -25,8 +25,11 @@ public class Pasajero {
     @Column(name = "NOMBRE")
     private String nombre;
 
-    @Column(name = "CEDULA")
-    private String cedula;
+    @Column(name = "GENERO")
+    private String genero;
+
+    @Column(name = "EDAD")
+    private String edad;
 
     @OneToOne(mappedBy = "pasajero")//anotacion 
     private Asiento asiento;//propiedad
