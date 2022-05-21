@@ -1,8 +1,6 @@
 package com.aviones.web.avionesweb.dto;
 
-public class AvionDTO {
-    
-    private Long id;
+public class NuevoAvionDTO {
     private String modelo;
     private float tamano;
     private String estado;
