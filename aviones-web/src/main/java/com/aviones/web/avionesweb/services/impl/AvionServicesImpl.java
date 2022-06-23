@@ -1,11 +1,11 @@
 package com.aviones.web.avionesweb.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aviones.web.avionesweb.dto.AvionDTO;
 import com.aviones.web.avionesweb.dto.NuevoAvionDTO;
+import com.aviones.web.avionesweb.exceptions.ResourceNotFoundException;
 import com.aviones.web.avionesweb.models.Avion;
 import com.aviones.web.avionesweb.repositories.AvionRepository;
 import com.aviones.web.avionesweb.services.AvionServices;
@@ -32,26 +32,22 @@ public class AvionServicesImpl implements AvionServices {
     public AvionDTO create(NuevoAvionDTO avionDTO) {
         Avion avion = modelMapper.map(avionDTO, Avion.class);
         avionRepository.save(avion);
-        AvionDTO avionDTOCreated = modelMapper.map(avion, AvionDTO.class); 
-        return avionDTOCreated;
+        return modelMapper.map(avion, AvionDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AvionDTO retrieve(Long id) throws Exception {
-        Optional<Avion> avion = avionRepository.findById(id);
-        if(avion.isPresent()){
-            throw new Exception("Avion no encontrado");
-        }
-        //.orElseThrow(()-> new Exception("Exam not found"));
-        return modelMapper.map(avion.get(),AvionDTO.class);
+    public AvionDTO retrieve(Long id){
+        Avion avion = avionRepository.findById(id)
+            .orElseThrow(()-> new ResourceNotFoundException("Avion no encontrado"));
+        return modelMapper.map(avion,AvionDTO.class);
     }
 
     @Override
     @Transactional
-    public AvionDTO update(AvionDTO avionDTO, Long id) throws Exception {
+    public AvionDTO update(AvionDTO avionDTO, Long id){
         Avion avion = avionRepository.findById(id)
-                .orElseThrow(()-> new Exception("Avion no encontrado"));
+                .orElseThrow(()-> new ResourceNotFoundException("Avion no encontrado"));
         avion.setId(id);
         avion = modelMapper.map(avionDTO, Avion.class);
         avionRepository.save(avion);       
@@ -61,9 +57,9 @@ public class AvionServicesImpl implements AvionServices {
 
     @Override
     @Transactional
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
         Avion avion = avionRepository.findById(id)
-                .orElseThrow(()-> new Exception("Avion no encontrado"));        
+                .orElseThrow(()-> new ResourceNotFoundException("Avion no encontrado"));        
         avionRepository.deleteById(avion.getId());        
     }
 

@@ -2,6 +2,8 @@ package com.aviones.web.avionesweb.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.aviones.web.avionesweb.dto.NuevoPasajeroDTO;
 import com.aviones.web.avionesweb.dto.PasajeroDTO;
 import com.aviones.web.avionesweb.services.PasajeroServices;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/pasajero")
+@RequestMapping("/pasajeros")
 public class PasajeroController {
     private final PasajeroServices service;
 
@@ -33,53 +35,43 @@ public class PasajeroController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody NuevoPasajeroDTO pasajeroDTO){
-        try {
+    public ResponseEntity<PasajeroDTO> create(@Valid @RequestBody NuevoPasajeroDTO pasajeroDTO){
+        
             PasajeroDTO result = service.create(pasajeroDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> retrive(@PathVariable("id") Long id){
-        try {
+    public ResponseEntity<PasajeroDTO> retrive(@PathVariable("id") Long id){
+        
             PasajeroDTO result = service.retrieve(id);
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @GetMapping() //el verbo es diferente a create ya que va
-    public ResponseEntity<?> list(){
-        try {
+    public ResponseEntity<List<PasajeroDTO>> list(){
+       
             List <PasajeroDTO> result  = service.list();
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody PasajeroDTO pasajeroDTO, @PathVariable("id") Long id){
-        try {
+    public ResponseEntity<PasajeroDTO> update(@RequestBody PasajeroDTO pasajeroDTO, @PathVariable("id") Long id){
+        
             PasajeroDTO result = service.update(pasajeroDTO, id);
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+       
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete( @PathVariable("id") Long id){
-        try {
+    public ResponseEntity<String> delete( @PathVariable("id") Long id){
+        
              service.delete(id);;
-            return ResponseEntity.ok().body("Pasajero deleted!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+            return ResponseEntity.ok().body("Pasajero borrado!");
+        
     }
 
 

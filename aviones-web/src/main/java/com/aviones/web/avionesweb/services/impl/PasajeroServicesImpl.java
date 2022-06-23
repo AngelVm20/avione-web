@@ -1,11 +1,11 @@
 package com.aviones.web.avionesweb.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aviones.web.avionesweb.dto.PasajeroDTO;
 import com.aviones.web.avionesweb.dto.NuevoPasajeroDTO;
+import com.aviones.web.avionesweb.exceptions.ResourceNotFoundException;
 import com.aviones.web.avionesweb.models.Pasajero;
 import com.aviones.web.avionesweb.repositories.PasajeroRepository;
 import com.aviones.web.avionesweb.services.PasajeroServices;
@@ -32,26 +32,22 @@ public class PasajeroServicesImpl implements PasajeroServices {
     public PasajeroDTO create(NuevoPasajeroDTO pasajeroDTO) {
         Pasajero pasajero = modelMapper.map(pasajeroDTO, Pasajero.class);
         pasajeroRepository.save(pasajero);
-        PasajeroDTO pasajeroDTOCreated = modelMapper.map(pasajero, PasajeroDTO.class); 
-        return pasajeroDTOCreated;
+        return modelMapper.map(pasajero, PasajeroDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PasajeroDTO retrieve(Long id) throws Exception {
-        Optional<Pasajero> pasajero = pasajeroRepository.findById(id);
-        if(pasajero.isPresent()){
-            throw new Exception("Pasajero no encontrado");
-        }
-        //.orElseThrow(()-> new Exception("Exam not found"));
-        return modelMapper.map(pasajero.get(),PasajeroDTO.class);
+    public PasajeroDTO retrieve(Long id){
+        Pasajero pasajero = pasajeroRepository.findById(id)
+        .orElseThrow(()-> new ResourceNotFoundException("Pasajero no encontrado"));
+        return modelMapper.map(pasajero,PasajeroDTO.class);
     }
 
     @Override
     @Transactional
-    public PasajeroDTO update(PasajeroDTO pasajeroDTO, Long id) throws Exception {
+    public PasajeroDTO update(PasajeroDTO pasajeroDTO, Long id){
         Pasajero pasajero = pasajeroRepository.findById(id)
-                .orElseThrow(()-> new Exception("Pasajero no encontrado"));
+                .orElseThrow(()-> new ResourceNotFoundException("Pasajero no encontrado"));
         pasajero.setId(id);
         pasajero = modelMapper.map(pasajeroDTO, Pasajero.class);
         pasajeroRepository.save(pasajero);       
@@ -61,9 +57,9 @@ public class PasajeroServicesImpl implements PasajeroServices {
 
     @Override
     @Transactional
-    public void delete(Long id) throws Exception {
+    public void delete(Long id){
         Pasajero pasajero = pasajeroRepository.findById(id)
-                .orElseThrow(()-> new Exception("Pasajero no encontrado"));        
+                .orElseThrow(()-> new ResourceNotFoundException("Pasajero no encontrado"));        
         pasajeroRepository.deleteById(pasajero.getId());        
     }
 

@@ -2,6 +2,8 @@ package com.aviones.web.avionesweb.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.aviones.web.avionesweb.dto.NuevoVueloDTO;
 import com.aviones.web.avionesweb.dto.VueloDTO;
 import com.aviones.web.avionesweb.services.VueloServices;
@@ -33,53 +35,43 @@ public class VueloController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody NuevoVueloDTO vueloDTO){
-        try {
+    public ResponseEntity<VueloDTO> create(@Valid @RequestBody NuevoVueloDTO vueloDTO){
+        
             VueloDTO result = service.create(vueloDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+       
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> retrive(@PathVariable("id") Long id){
-        try {
+    public ResponseEntity<VueloDTO> retrive(@PathVariable("id") Long id){
+        
             VueloDTO result = service.retrieve(id);
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @GetMapping() //el verbo es diferente a create ya que va
-    public ResponseEntity<?> list(){
-        try {
+    public ResponseEntity<List<VueloDTO>> list(){
+        
             List <VueloDTO> result  = service.list();
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody VueloDTO vueloDTO, @PathVariable("id") Long id){
-        try {
+    public ResponseEntity<VueloDTO> update(@RequestBody VueloDTO vueloDTO, @PathVariable("id") Long id){
+        
             VueloDTO result = service.update(vueloDTO, id);
             return ResponseEntity.ok().body(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete( @PathVariable("id") Long id){
-        try {
+    public ResponseEntity<String> delete( @PathVariable("id") Long id){
+        
              service.delete(id);;
             return ResponseEntity.ok().body("Vuelo deleted!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        
     }
     
 }

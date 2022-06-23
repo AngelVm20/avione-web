@@ -1,11 +1,11 @@
 package com.aviones.web.avionesweb.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aviones.web.avionesweb.dto.PilotoDTO;
 import com.aviones.web.avionesweb.dto.NuevoPilotoDTO;
+import com.aviones.web.avionesweb.exceptions.ResourceNotFoundException;
 import com.aviones.web.avionesweb.models.Piloto;
 import com.aviones.web.avionesweb.repositories.PilotoRepository;
 import com.aviones.web.avionesweb.services.PilotoServices;
@@ -32,26 +32,22 @@ public class PilotoServicesImpl implements PilotoServices{
     public PilotoDTO create(NuevoPilotoDTO pilotoDTO) {
         Piloto piloto = modelMapper.map(pilotoDTO, Piloto.class);
         pilotoRepository.save(piloto);
-        PilotoDTO pilotoDTOCreated = modelMapper.map(piloto, PilotoDTO.class); 
-        return pilotoDTOCreated;
+        return modelMapper.map(piloto, PilotoDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PilotoDTO retrieve(Long id) throws Exception {
-        Optional<Piloto> piloto = pilotoRepository.findById(id);
-        if(piloto.isPresent()){
-            throw new Exception("Piloto no encontrado");
-        }
-        //.orElseThrow(()-> new Exception("Exam not found"));
-        return modelMapper.map(piloto.get(),PilotoDTO.class);
+    public PilotoDTO retrieve(Long id) {
+        Piloto piloto = pilotoRepository.findById(id)
+        .orElseThrow(()-> new ResourceNotFoundException("Exam not found"));
+        return modelMapper.map(piloto,PilotoDTO.class);
     }
 
     @Override
     @Transactional
-    public PilotoDTO update(PilotoDTO pilotoDTO, Long id) throws Exception {
+    public PilotoDTO update(PilotoDTO pilotoDTO, Long id){
         Piloto piloto = pilotoRepository.findById(id)
-                .orElseThrow(()-> new Exception("Piloto no encontrado"));
+                .orElseThrow(()-> new ResourceNotFoundException("Piloto no encontrado"));
         piloto.setId(id);
         piloto = modelMapper.map(pilotoDTO, Piloto.class);
         pilotoRepository.save(piloto);       
@@ -61,9 +57,9 @@ public class PilotoServicesImpl implements PilotoServices{
 
     @Override
     @Transactional
-    public void delete(Long id) throws Exception {
+    public void delete(Long id)  {
         Piloto piloto = pilotoRepository.findById(id)
-                .orElseThrow(()-> new Exception("Piloto no encontrado"));        
+                .orElseThrow(()-> new ResourceNotFoundException("Piloto no encontrado"));        
         pilotoRepository.deleteById(piloto.getId());        
     }
 

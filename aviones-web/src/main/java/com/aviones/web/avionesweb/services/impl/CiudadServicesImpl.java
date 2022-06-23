@@ -1,11 +1,11 @@
 package com.aviones.web.avionesweb.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aviones.web.avionesweb.dto.CiudadDTO;
 import com.aviones.web.avionesweb.dto.NuevoCiudad;
+import com.aviones.web.avionesweb.exceptions.ResourceNotFoundException;
 import com.aviones.web.avionesweb.models.Ciudad;
 import com.aviones.web.avionesweb.repositories.CiudadReposiroy;
 import com.aviones.web.avionesweb.services.CiudadServices;
@@ -32,26 +32,22 @@ public class CiudadServicesImpl implements CiudadServices {
     public CiudadDTO create(NuevoCiudad ciudadDTO) {
         Ciudad ciudad = modelMapper.map(ciudadDTO, Ciudad.class);
         ciudadRepository.save(ciudad);
-        CiudadDTO ciudadDTOCreated = modelMapper.map(ciudad, CiudadDTO.class); 
-        return ciudadDTOCreated;
+        return modelMapper.map(ciudad, CiudadDTO.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CiudadDTO retrieve(Long id) throws Exception {
-        Optional<Ciudad> ciudad = ciudadRepository.findById(id);
-        if(ciudad.isPresent()){
-            throw new Exception("Ciudad no encontrada");
-        }
-        //.orElseThrow(()-> new Exception("Exam not found"));
-        return modelMapper.map(ciudad.get(),CiudadDTO.class);
+    public CiudadDTO retrieve(Long id){
+        Ciudad ciudad = ciudadRepository.findById(id)
+        .orElseThrow(()-> new ResourceNotFoundException("Exam not found"));
+        return modelMapper.map(ciudad,CiudadDTO.class);
     }
 
     @Override
     @Transactional
-    public CiudadDTO update(CiudadDTO ciudadDTO, Long id) throws Exception {
+    public CiudadDTO update(CiudadDTO ciudadDTO, Long id) {
         Ciudad ciudad = ciudadRepository.findById(id)
-                .orElseThrow(()-> new Exception("Ciudad no encontrada"));
+                .orElseThrow(()-> new ResourceNotFoundException("Ciudad no encontrada"));
         ciudad.setId(id);
         ciudad = modelMapper.map(ciudadDTO, Ciudad.class);
         ciudadRepository.save(ciudad);       
@@ -61,9 +57,9 @@ public class CiudadServicesImpl implements CiudadServices {
 
     @Override
     @Transactional
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
         Ciudad ciudad = ciudadRepository.findById(id)
-                .orElseThrow(()-> new Exception("Ciudad no encontrada"));        
+                .orElseThrow(()-> new ResourceNotFoundException("Ciudad no encontrada"));        
         ciudadRepository.deleteById(ciudad.getId());        
     }
 

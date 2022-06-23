@@ -8,9 +8,9 @@ import com.aviones.web.avionesweb.dto.NuevoAsientoDTO;
 public interface AsientoServices {
     
     public AsientoDTO create(NuevoAsientoDTO asientoDTO);
-    public AsientoDTO retrieve(Long id) throws Exception;
-    public AsientoDTO update(AsientoDTO asientoDTO, Long id) throws Exception;
-    public void delete(Long id) throws Exception;
+    public AsientoDTO retrieve(Long id);
+    public AsientoDTO update(AsientoDTO asientoDTO, Long id);
+    public void delete(Long id);
 
     public List<AsientoDTO> list();
 }

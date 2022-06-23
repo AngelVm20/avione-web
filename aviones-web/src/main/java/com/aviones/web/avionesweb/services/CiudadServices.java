@@ -8,9 +8,9 @@ import com.aviones.web.avionesweb.dto.NuevoCiudad;
 public interface CiudadServices {
     
     public CiudadDTO create(NuevoCiudad ciudadDTO);
-    public CiudadDTO retrieve(Long id) throws Exception;
-    public CiudadDTO update(CiudadDTO ciudadDTO, Long id) throws Exception;
-    public void delete(Long id) throws Exception;
+    public CiudadDTO retrieve(Long id);
+    public CiudadDTO update(CiudadDTO ciudadDTO, Long id);
+    public void delete(Long id);
 
     public List<CiudadDTO> list();
 }
