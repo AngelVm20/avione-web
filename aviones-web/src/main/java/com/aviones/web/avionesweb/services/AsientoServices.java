@@ -12,5 +12,5 @@ public interface AsientoServices {
     public AsientoDTO update(AsientoDTO asientoDTO, Long id);
     public void delete(Long id);
 
-    public List<AsientoDTO> list();
+    public List<AsientoDTO> list(/*este es el filtro */);
 }
