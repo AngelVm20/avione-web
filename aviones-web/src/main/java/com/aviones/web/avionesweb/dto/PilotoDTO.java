@@ -7,9 +7,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-public class PilotoDTO {
-    
+public class PilotoDTO extends NuevoPilotoDTO {
     private Long id;
-    private String nombre;
-    private String licencia;
 }

@@ -11,6 +11,7 @@ import com.aviones.web.avionesweb.services.AvionServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/aviones")
+@RequestMapping("/vuelos")
 public class AvionController {
     private final AvionServices service;
 
-    // post /aviones
-    //get /aviones/{id}
-    //get /aviones
 
-    @Autowired
     public AvionController(AvionServices srv){
         this.service =srv;
     }

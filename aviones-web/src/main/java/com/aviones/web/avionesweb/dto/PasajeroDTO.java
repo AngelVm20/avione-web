@@ -7,10 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PasajeroDTO {
-    
+public class PasajeroDTO extends NuevoPasajeroDTO{
     private Long id;
-    private String nombre;
-    private String genero;
-    private String edad;
 }

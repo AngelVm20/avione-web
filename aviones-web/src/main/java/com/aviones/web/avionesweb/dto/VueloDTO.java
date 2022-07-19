@@ -7,13 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class VueloDTO {
-    
+public class VueloDTO extends NuevoVueloDTO{  
     private Long id;
-    private String horaSalida;
-    private String horaLlegada;
-    private String origenVuelo;
-    private String destinoVuelo;
-    private String tipoVuelo;
-    
 }

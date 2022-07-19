@@ -11,6 +11,7 @@ import com.aviones.web.avionesweb.services.CiudadServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,58 +21,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/ciudades")
+@RequestMapping("/vuelos")
 public class CiudadController {
 
     private final CiudadServices service;
 
-    // post /ciudad
-    //get /ciudad/{id}
-    //get /ciudad
-
-    @Autowired
     public CiudadController(CiudadServices srv){
         this.service =srv;
     }
 
-    @PostMapping()
-    public ResponseEntity<CiudadDTO> create(@Valid @RequestBody NuevoCiudad ciudadDTO){
+    @PostMapping("/{id}/ciudades")
+    public ResponseEntity<CiudadDTO> create(@PathVariable("id") Long id,@Valid @RequestBody NuevoCiudad ciudadDTO){
         
-            CiudadDTO result = service.create(ciudadDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+            CiudadDTO ciudadDTO = service.create(id,ciudadDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ciudadDTO);
         
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CiudadDTO> retrive(@PathVariable("id") Long id){
+    @GetMapping("/{idVuelo}/ciudades/{id}")
+    public ResponseEntity<CiudadDTO> retrive(@PathVariable("idVuelo") Long idVuelo,@PathVariable("id") Long id){
         
-            CiudadDTO result = service.retrieve(id);
+            CiudadDTO result = service.retrieve(idVuelo,id);
             return ResponseEntity.ok().body(result);
         
     }
 
-    @GetMapping() //el verbo es diferente a create ya que va
-    public ResponseEntity<List<CiudadDTO>> list(){
+    @GetMapping("/{id}/ciudades") //el verbo es diferente a create ya que va
+    public ResponseEntity<List<CiudadDTO>> list(@PathVariable("id") Long id){
         
-            List <CiudadDTO> result  = service.list();
-            return ResponseEntity.ok().body(result);
+            List <CiudadDTO> ciudades  = service.list(id);
+            return ResponseEntity.ok().body(ciudades);
        
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CiudadDTO> update(@RequestBody CiudadDTO ciudadDTO, @PathVariable("id") Long id){
+    @PutMapping("/{idVuelo}/ciudades/{id}")
+    public ResponseEntity<CiudadDTO> update(@RequestBody CiudadDTO ciudadDTO,@PathVariable("idVuelo") Long idVuelo, @PathVariable("id") Long id){
         
-            CiudadDTO result = service.update(ciudadDTO, id);
+            CiudadDTO result = service.update(ciudadDTO,idVuelo, id);
             return ResponseEntity.ok().body(result);
         
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete( @PathVariable("id") Long id){
+    @DeleteMapping("/{idVuelo}/ciudades/{id}")
+    public ResponseEntity<String> delete( @PathVariable("idVuelo") Long idVuelo,@PathVariable("id") Long id){
         
-             service.delete(id);
-            return ResponseEntity.ok().body("Ciudad borrado!");
+             service.delete(idVuelo,id);
+            return ResponseEntity.noContent().build();
         
     }
 

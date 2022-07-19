@@ -6,9 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CiudadDTO {
-    
+public class CiudadDTO extends NuevoCiudad {
     private Long id;
-    private String nombre;
-    private String ubicacion;
 }

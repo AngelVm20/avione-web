@@ -7,9 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AsientoDTO {
-    
+public class AsientoDTO extends NuevoAsientoDTO {
     private Long id;
-    private String numeroAsiento;
-    private String estadoAsiento;
 }

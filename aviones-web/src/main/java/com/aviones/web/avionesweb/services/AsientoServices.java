@@ -7,10 +7,10 @@ import com.aviones.web.avionesweb.dto.NuevoAsientoDTO;
 
 public interface AsientoServices {
     
-    public AsientoDTO create(NuevoAsientoDTO asientoDTO);
-    public AsientoDTO retrieve(Long id);
-    public AsientoDTO update(AsientoDTO asientoDTO, Long id);
-    public void delete(Long id);
+    public AsientoDTO create(Long idVuelo,NuevoAsientoDTO asientoDTO);
+    public AsientoDTO retrieve(Long idVuelo,Long id);
+    public AsientoDTO update(AsientoDTO asientoDTO, Long idVuelo, Long id);
+    public void delete(Long idVuelo,Long id);
 
-    public List<AsientoDTO> list(/*este es el filtro */);
+    public List<AsientoDTO> list(Long idVuelo);
 }

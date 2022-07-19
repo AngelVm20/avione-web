@@ -6,12 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AvionDTO {
-    
+public class AvionDTO extends NuevoAvionDTO{
     private Long id;
-    private String modelo;
-    private float tamano;
-    private String estado;
-    private String aereolinea;
-    private String compartimientos;
 }
